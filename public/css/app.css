@@ -1,6 +1,9 @@
 body{
     background-color: #f1f1f1;
 }
+:root{
+    --primary: darkred;
+}
 .body_full{
     height: 100vh;
     width: 100%;
