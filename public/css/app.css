@@ -1,3 +1,31 @@
 body{
     background-color: #f1f1f1;
 }
+.body_full{
+    height: 100vh;
+    width: 100%;
+    background: url("/bg.jpg");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    background-color: white;
+}
+.title{
+    color: darkred;
+}
+.title h1{
+    font-size: 54px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    margin-bottom: 0;
+}
+.title h4{
+    font-weight: normal;
+    font-size: 30px;
+    letter-spacing: 7px;
+}
+.title h4.system{
+    font-weight: normal;
+    font-size: 30px;
+    letter-spacing: 19px;
+}

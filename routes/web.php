@@ -41,6 +41,7 @@ Route::get('/', function () {
 //    if ($json_decode[0]['role'] == "ADMIN") {
 //        return "/blood_bank";
 //    }
+    return view('home');
 });
 
 Auth::routes();
