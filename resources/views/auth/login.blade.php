@@ -66,7 +66,7 @@
                             <img src="{{ asset("droplet.png") }}" class="w-75" alt="">
                         </div>
                         <div class="mb-3">
-                            <h4 class="text-center">Login to your account</h4>
+                            <h4 class="text-center" style="color: darkred">BLOOD BANK</h4>
                         </div>
                         <div class="form-group row">
                             <div class="col mb-2">
