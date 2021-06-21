@@ -52,16 +52,18 @@
 
                             <button type="submit" class="btn btn-primary">Request</button>
 
+                            @php
+                                use Illuminate\Support\Facades\DB;
+                                $zones = DB::table('zones')->get();
+                            @endphp
                             <div class="form-group mb-3">
-                                <label for="blood_group">Zone</label>
-                                <select name="blood_group" class="form-select @error('blood_group') is-invalid @enderror" aria-label="Default select example" required>
+                                <select name="zone_id" class="form-select @error('zone_id') is-invalid @enderror" aria-label="Default select example" required>
                                     <option selected disabled>Choose your zone...</option>
-                                    <option value="A">Group A</option>
-                                    <option value="B">Group B</option>
-                                    <option value="AB">Group AB</option>
-                                    <option value="O">Group O</option>
+                                    @foreach($zones as $zone)
+                                        <option value="{{ $zone->id }}">{{ $zone->zone }}</option>
+                                    @endforeach
                                 </select>
-                                @error('blood_group')
+                                @error('zone_id')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
