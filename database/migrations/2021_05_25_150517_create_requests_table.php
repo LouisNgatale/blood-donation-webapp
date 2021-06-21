@@ -23,6 +23,7 @@ class CreateRequestsTable extends Migration
             $table->string('request_code_id');
             $table->date('required_date');
             $table->boolean('isApproved')->default(false);
+            $table->boolean('isDenied')->default(false);
             $table->timestamps();
 
             $table->index(['request_code_id','zone_id']);

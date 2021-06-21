@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
 
 class RequestsController extends Controller
 {
@@ -16,6 +17,7 @@ class RequestsController extends Controller
     public function index() {
         $requests = collect(Requests::all()
             ->where('isApproved',false)
+            ->where('isDenied',false)
             ->where('zone_id',User::find(auth()->id())->zone->id))
             ->map(function ($item) {
                 $user =DB::table('users')
@@ -55,7 +57,7 @@ class RequestsController extends Controller
             ->where('request_code', '=', $request->input('request_code'))
             ->where('owner_id', '=', auth()->id())->first();
 
-        if ($collection->id){
+        if (isset($collection)){
             DB::table('requests')
                 ->insert([
                     'recipient_id'=>auth()->id(),
@@ -67,11 +69,9 @@ class RequestsController extends Controller
                     'quantity'=>$request->input('quantity'),
                 ]);
             return Redirect::route('customer.request')->with('status','Request made successfully!');
-
         }else{
             return Redirect::route('customer.request')->with('error','The request code is not valid!');
         }
-
     }
 
     public function request_code(Request $request)
@@ -146,6 +146,13 @@ class RequestsController extends Controller
 
     public function deny($id)
     {
-        echo $id;
+        // Confirm the request is denied
+        DB::table('requests')
+            ->where('id', $id)
+            ->update([
+                'isDenied'=>true
+            ]);
+
+        return Redirect::route('requests.index');
     }
 }
