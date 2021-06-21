@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Requests;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,10 @@ class RequestsController extends Controller
 {
     //
     public function index() {
-        $requests = collect(Requests::all()->where('isApproved','=',false))
+
+        $requests = collect(Requests::all()
+            ->where('isApproved',false)
+            ->where('zone_id',User::find(auth()->id())->zone->id))
             ->map(function ($item) {
 
                 $user =DB::table('users')
@@ -69,8 +73,6 @@ class RequestsController extends Controller
         }else{
             return Redirect::route('customer.request')->with('error','The request code is not valid!');
         }
-
-
 
     }
 
