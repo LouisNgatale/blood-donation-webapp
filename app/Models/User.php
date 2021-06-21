@@ -63,4 +63,8 @@ class User extends Authenticatable
     public function requests(){
         return $this->hasMany(Requests::class,'recipient_id');
     }
+
+    public function zone(){
+        return $this->belongsTo(Zones::class);
+    }
 }

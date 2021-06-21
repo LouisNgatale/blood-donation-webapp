@@ -51,6 +51,20 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary">Request</button>
+
+                            <div class="form-group mb-3">
+                                <label for="blood_group">Zone</label>
+                                <select name="blood_group" class="form-select @error('blood_group') is-invalid @enderror" aria-label="Default select example" required>
+                                    <option selected disabled>Choose your zone...</option>
+                                    <option value="A">Group A</option>
+                                    <option value="B">Group B</option>
+                                    <option value="AB">Group AB</option>
+                                    <option value="O">Group O</option>
+                                </select>
+                                @error('blood_group')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </form>
                         @if ( session('status'))
                             <div class="alert alert-success my-2">

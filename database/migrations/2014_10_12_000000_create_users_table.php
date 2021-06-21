@@ -19,11 +19,14 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('age');
             $table->string('gender');
+            $table->bigInteger('zone_id')->default(null);
             $table->string('blood_group')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->index('zone_id');
         });
     }
 
