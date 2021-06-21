@@ -5,8 +5,8 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
-                        New blood inventory
+                    <div class="card-header bg-primary text-white">
+                        New blood stock
                     </div>
                     <div class="card-body">
                         <form action="{{ route('blood_bank.store') }}" method="post">

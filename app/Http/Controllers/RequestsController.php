@@ -12,14 +12,12 @@ use function PHPUnit\Framework\isEmpty;
 
 class RequestsController extends Controller
 {
-    //
-    public function index() {
 
+    public function index() {
         $requests = collect(Requests::all()
             ->where('isApproved',false)
             ->where('zone_id',User::find(auth()->id())->zone->id))
             ->map(function ($item) {
-
                 $user =DB::table('users')
                     ->where('id',$item['recipient_id'])
                     ->first();
@@ -102,5 +100,52 @@ class RequestsController extends Controller
             ]);
 
         return Redirect::route('doctor.request')->with('status',"Request code - $code");
+    }
+
+    public function approve($id): RedirectResponse
+    {
+        // Get the specific request
+        $request = DB::table('requests')
+            ->where('id', $id)
+            ->first();
+
+        // Get all available inventories
+        $inventories = DB::table('inventories')
+            ->where([
+                ['blood_rha', '=', $request->blood_rha],
+                ['blood_group', '=', $request->blood_type],
+                ['isAvailable', '=', true],
+            ])->get();
+
+        if ($inventories->isNotEmpty()){
+            if ($inventories->count() >= $request->quantity) {
+                // Confirm the request is approved
+                DB::table('requests')
+                    ->where('id', $id)
+                    ->update([
+                        'isApproved'=>true
+                    ]);
+
+                // Update the inventory availability to false
+                for ($i = 0; $i < $request->quantity; $i++){
+                    $stock_id = $inventories[$i]->id;
+                    DB::table('inventories')
+                        ->where('id',$stock_id)
+                        ->update([
+                            'isAvailable'=>false
+                        ]);
+                }
+            }else{
+                return Redirect::route('requests.index')->with($id,"No enough stock");
+            }
+        }else{
+            return Redirect::route('requests.index')->with($id,"Out of this stock");
+        }
+        return Redirect::route('requests.index');
+    }
+
+    public function deny($id)
+    {
+        echo $id;
     }
 }
