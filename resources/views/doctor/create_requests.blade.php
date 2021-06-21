@@ -1,15 +1,16 @@
-@extends('layouts.blood_bank')
+@extends('layouts.doctor')
 
-@section('blood_bank')
-    <div class="container-fluid">
+@section('doctor')
+    <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
-                        New blood inventory
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0 text-center">Generate request code</h4>
                     </div>
+
                     <div class="card-body">
-                        <form action="{{ route('blood_bank.store') }}" method="post">
+                        <form action="{{ route('doctor.store') }}" method="post">
                             @csrf
                             <div class="form-group mb-3">
                                 <label for="blood_group">Blood Group</label>
@@ -23,8 +24,8 @@
                                 @error('blood_group')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
-
                             </div>
+
                             <div class="form-group mb-3">
                                 <label for="blood_rha">Blood Rhesus factor</label>
                                 <input type="text" class="form-control @error('blood_rha') is-invalid @enderror" id="blood_rha" name="blood_rha" placeholder="Blood RHA">
@@ -32,21 +33,22 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="row mb-3">
-                                <div class="form-group col">
-                                    <label for="donor_id">Blood Donor Id</label>
-                                    <input type="text" class="form-control @error('donor_id') is-invalid @enderror" id="donor_id" name="donor_id" placeholder="Blood donor Id">
-                                    @error('donor_id')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group col">
-                                    <label for="expire_date">Expire date</label>
-                                    <input type="date" class="form-control @error('expire_date') is-invalid @enderror" id="expire_date" name="expire_date">
-                                    @error('expire_date')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+
+                            <div class="form-group mb-3">
+                                <label for="patient_id">Patient Id</label>
+                                <input type="text" class="form-control @error('patient_id') is-invalid @enderror" id="patient_id" name="patient_id" placeholder="Patient Id">
+                                @error('patient_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="required_date">Required date</label>
+                                <input type="text" placeholder="MM/DD/YYYY" class="form-control @error('required_date') is-invalid @enderror" id="required_date" name="required_date"
+                                       onfocus="(this.type='date')" onblur="(this.type='text')">
+                                @error('expire_date')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="form-group mb-3">
@@ -57,8 +59,23 @@
                                 @enderror
                             </div>
 
+                            @php
+                                use Illuminate\Support\Facades\DB;
+                                $zones = DB::table('zones')->get();
+                            @endphp
+                            <div class="form-group mb-3">
+                                <select name="zone_id" class="form-select @error('zone_id') is-invalid @enderror" aria-label="Default select example" required>
+                                    <option selected disabled>Choose request zone...</option>
+                                    @foreach($zones as $zone)
+                                        <option value="{{ $zone->id }}">{{ $zone->zone }}</option>
+                                    @endforeach
+                                </select>
+                                @error('zone_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">Generate code</button>
                         </form>
                         @if ( session('status'))
                             <div class="alert alert-success my-2">
@@ -69,5 +86,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DonorsController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\RequestsController;
@@ -42,7 +43,14 @@ Route::middleware('auth')->group(function (){
         // Customer routes
         Route::get('/customer',[CustomerController::class,'index'])->name('customer.home');
         Route::get('/customer/request',[CustomerController::class,'create'])->name('customer.request');
-        Route::post('/customer/request',[CustomerController::class,'store'])->name('customer.store');
+        Route::post('/customer/request',[RequestsController::class,'store'])->name('customer.store');
         Route::get('/customer/donate',[CustomerController::class,'donate'])->name('customer.donate');
+    });
+
+    Route::middleware(['auth', 'doctor'])->group(function () {
+        // Doctor routes
+        Route::get('/doctor',[DoctorController::class,'index'])->name('doctor.home');
+        Route::get('/doctor/request',[DoctorController::class,'create'])->name('doctor.request');
+        Route::post('/doctor/request',[RequestsController::class,'request_code'])->name('doctor.store');
     });
 });

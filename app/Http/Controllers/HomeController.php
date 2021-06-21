@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     /**
@@ -48,6 +48,9 @@ class HomeController extends Controller
             }
             if ($json_decode[0]['role'] == "ADMIN") {
                 return Redirect::route( "blood_bank.home");
+            }
+            if ($json_decode[0]['role'] == "DOCTOR") {
+                return Redirect::route( "doctor.home");
             }
         }else{
             return view('home');

@@ -13,4 +13,8 @@ class Zones extends Model
     {
         return $this->hasMany(User::class,'zone_id');
     }
+    public function requests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Requests::class,'zone_id');
+    }
 }

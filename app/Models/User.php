@@ -46,25 +46,39 @@ class User extends Authenticatable
     /**
      * The roles that belong to the user.
      */
-    public function roles(){
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
         return $this->belongsToMany(Roles::class, 'role_user');
     }
 
     /**
      * The donations that belong to the user.
      */
-    public function donation(){
+    public function donation(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Inventory::class,'donor_id');
     }
 
     /**
      * The requests that belong to the user.
      */
-    public function requests(){
+    public function requests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Requests::class,'recipient_id');
     }
 
-    public function zone(){
+    public function zone(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Zones::class);
+    }
+
+    public function generated_codes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(RequestCode::class,'generated_by');
+    }
+
+    public function owning_codes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(RequestCode::class,'owner_id');
     }
 }

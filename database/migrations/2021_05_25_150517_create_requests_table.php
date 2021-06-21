@@ -18,12 +18,14 @@ class CreateRequestsTable extends Migration
             $table->unsignedBigInteger('recipient_id');
             $table->string('blood_type');
             $table->integer('quantity');
+            $table->bigInteger('zone_id');
             $table->string('blood_rha');
+            $table->string('request_id');
             $table->date('required_date');
             $table->boolean('isApproved')->default(false);
             $table->timestamps();
 
-            $table->index('recipient_id');
+            $table->index(['recipient_id','zone_id']);
         });
     }
 

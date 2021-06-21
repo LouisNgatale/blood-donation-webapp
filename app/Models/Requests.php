@@ -12,4 +12,7 @@ class Requests extends Model
     public function recipient() {
         return $this->belongsTo(User::class);
     }
+    public function zone() {
+        return $this->belongsTo(Zones::class);
+    }
 }

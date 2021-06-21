@@ -43,7 +43,7 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Application|Factory|View|Response
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -55,34 +55,7 @@ class CustomerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return RedirectResponse
-     */
-    public function store(Request $request)
-    {
-        //
-        $request->validate([
-            'blood_group' => 'required|String',
-            'blood_rha' => 'required|String',
-            'required_date' => 'required|date',
-            'quantity' => 'required|Integer',
-        ]);
-
-        DB::table('requests')
-            ->insert([
-                'recipient_id'=>auth()->id(),
-                'blood_type'=>$request->input('blood_group'),
-                'blood_rha'=>$request->input('blood_rha'),
-                'required_date'=>$request->input('required_date'),
-                'quantity'=>$request->input('quantity'),
-            ]);
-
-        return Redirect::route('customer.request')->with('status','Request made successfully!');
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * @return void
      */
     public function donate(Request $request)
     {
@@ -93,7 +66,7 @@ class CustomerController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return void
      */
     public function show($id)
     {

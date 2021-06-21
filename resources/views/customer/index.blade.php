@@ -1,4 +1,4 @@
-@extends('customer.layout.customer')
+@extends('layouts.customer')
 
 @section('customer')
     <div class="container">
@@ -37,6 +37,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col">
                 <div class="card">
                     <div class="card-body">

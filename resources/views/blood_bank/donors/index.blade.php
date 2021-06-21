@@ -1,4 +1,4 @@
-@extends('blood_bank.layout.blood_bank')
+@extends('layouts.blood_bank')
 
 @section('blood_bank')
     <div class="container">
