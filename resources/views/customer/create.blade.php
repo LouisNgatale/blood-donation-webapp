@@ -51,10 +51,10 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="quantity">Request code</label>
-                                <input type="text" name="quantity" id="quantity" class="form-control @error('quantity') is-invalid @enderror" placeholder="eg KKOO-2000-450">
+                                <label for="request_code">Request code</label>
+                                <input type="text" name="request_code" id="request_code" class="form-control @error('request_code') is-invalid @enderror" placeholder="eg REQ-2000-450">
                                 <small>Enter the request code given by the doctor</small>
-                                @error('quantity')
+                                @error('request_code')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -80,6 +80,10 @@
                         @if ( session('status'))
                             <div class="alert alert-success my-2">
                                 {{ session('status') }}
+                            </div>
+                        @elseif(session('error'))
+                            <div class="alert alert-danger my-2">
+                                {{ session('error') }}
                             </div>
                         @endif
                     </div>

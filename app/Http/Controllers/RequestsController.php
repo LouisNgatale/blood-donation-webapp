@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use function PHPUnit\Framework\isEmpty;
 
 class RequestsController extends Controller
 {
@@ -45,20 +46,32 @@ class RequestsController extends Controller
             'required_date' => 'required|date',
             'zone_id' => 'required',
             'quantity' => 'required|Integer',
+            'request_code' => 'required',
         ]);
 
-        DB::table('requests')
-            ->insert([
-                'recipient_id'=>auth()->id(),
-                'blood_type'=>$request->input('blood_group'),
-                'blood_rha'=>$request->input('blood_rha'),
-                'zone_id'=>$request->input('zone_id'),
-                'zone_id'=>$request->input('zone_id'),
-                'required_date'=>$request->input('required_date'),
-                'quantity'=>$request->input('quantity'),
-            ]);
+        $collection = DB::table('request_codes')
+            ->where('request_code', '=', $request->input('request_code'))
+            ->where('owner_id', '=', auth()->id())->first();
 
-        return Redirect::route('customer.request')->with('status','Request made successfully!');
+        if ($collection->id){
+            DB::table('requests')
+                ->insert([
+                    'recipient_id'=>auth()->id(),
+                    'blood_type'=>$request->input('blood_group'),
+                    'blood_rha'=>$request->input('blood_rha'),
+                    'zone_id'=>$request->input('zone_id'),
+                    'request_code_id'=>$collection->id,
+                    'required_date'=>$request->input('required_date'),
+                    'quantity'=>$request->input('quantity'),
+                ]);
+            return Redirect::route('customer.request')->with('status','Request made successfully!');
+
+        }else{
+            return Redirect::route('customer.request')->with('error','The request code is not valid!');
+        }
+
+
+
     }
 
     public function request_code(Request $request)
@@ -86,6 +99,6 @@ class RequestsController extends Controller
                 'generated_by'=>auth()->id()
             ]);
 
-        return Redirect::route('doctor.request')->with('status',"Request code - .$code.");
+        return Redirect::route('doctor.request')->with('status',"Request code - $code");
     }
 }

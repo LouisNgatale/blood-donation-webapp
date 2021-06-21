@@ -20,12 +20,12 @@ class CreateRequestsTable extends Migration
             $table->integer('quantity');
             $table->bigInteger('zone_id');
             $table->string('blood_rha');
-            $table->string('request_id');
+            $table->string('request_code_id');
             $table->date('required_date');
             $table->boolean('isApproved')->default(false);
             $table->timestamps();
 
-            $table->index(['recipient_id','zone_id']);
+            $table->index(['request_code_id','zone_id']);
         });
     }
 
