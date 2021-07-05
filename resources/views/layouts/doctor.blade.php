@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -61,4 +62,5 @@
     <main class="py-4">
         @yield('doctor')
     </main>
+
 @endsection

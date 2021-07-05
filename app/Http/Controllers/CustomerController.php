@@ -55,11 +55,11 @@ class CustomerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return void
+     * @return Application|Factory|View|void
      */
     public function donate(Request $request)
     {
-        //
+        return view("customer.donation.index");
     }
 
     /**
