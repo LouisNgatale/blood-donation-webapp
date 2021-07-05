@@ -58,6 +58,7 @@
         <div class="row my-4">
             <div class="col-4">
                 <a href="{{ route('blood_bank.create') }}" class="btn btn-outline-primary">Add Stock</a>
+                <a href="{{ route('blood_bank.view') }}" class="btn ml-2 btn-outline-primary">View Stock</a>
             </div>
             <div class="col-4">
                 <a href="{{ route('requests.index') }}" class="btn btn-outline-primary">View requests</a>

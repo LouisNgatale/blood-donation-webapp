@@ -32,6 +32,17 @@ class InventoryController extends Controller
             'donors' => $donors,
         ]);
     }
+
+    public function view()
+    {
+        $zone_id = User::find(Auth::id())->zone['id'];
+
+        $requests = DB::table('inventories')
+            ->where('zone_id','=',$zone_id)
+            ->get();
+
+        return view('blood_bank.view',compact('requests'));
+    }
     //
     public function create() {
         return view('blood_bank.create');
@@ -62,6 +73,7 @@ class InventoryController extends Controller
                     'created_at' => Date::now()
                 ]);
         }
+
         return Redirect::route('blood_bank.create')->with('status','Inventory added successfully!');
     }
 }

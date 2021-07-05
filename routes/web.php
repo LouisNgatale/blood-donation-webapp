@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function (){
     Route::middleware(['auth', 'admin'])->group(function () {
         // Blood bank admin routes
         Route::get('/blood_bank',[InventoryController::class,'index'])->name('blood_bank.home');
+        Route::get('/blood_bank/stock',[InventoryController::class,'view'])->name('blood_bank.view');
         Route::get('/blood_bank/add',[InventoryController::class,'create'])->name('blood_bank.create');
         Route::post('/blood_bank/add',[InventoryController::class,'store'])->name('blood_bank.store');
         Route::get('/blood_bank/requests',[RequestsController::class,'index'])->name('requests.index');
