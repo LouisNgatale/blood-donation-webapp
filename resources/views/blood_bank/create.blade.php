@@ -15,10 +15,14 @@
                                 <label for="blood_group">Blood Group</label>
                                 <select name="blood_group" class="form-select @error('blood_group') is-invalid @enderror" aria-label="Default select example" required>
                                     <option selected disabled>Choose...</option>
-                                    <option value="A">Group A</option>
-                                    <option value="B">Group B</option>
-                                    <option value="AB">Group AB</option>
-                                    <option value="O">Group O</option>
+                                    <option value="A+">Group A+</option>
+                                    <option value="A-">Group A-</option>
+                                    <option value="B+">Group B+</option>
+                                    <option value="B-">Group B-</option>
+                                    <option value="AB+">Group AB+</option>
+                                    <option value="AB-">Group AB-</option>
+                                    <option value="O+">Group O+</option>
+                                    <option value="O-">Group O-</option>
                                 </select>
                                 @error('blood_group')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -56,7 +60,6 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
 
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>

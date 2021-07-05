@@ -19,10 +19,12 @@ class CreateInventoriesTable extends Migration
             $table->string("blood_rha");
             $table->unsignedBigInteger("donor_id");
             $table->string("expire_date");
+            $table->unsignedBigInteger("zone_id");
             $table->boolean("isAvailable")->default(true);
             $table->timestamps();
 
             $table->index('donor_id');
+            $table->index('zone_id');
         });
     }
 

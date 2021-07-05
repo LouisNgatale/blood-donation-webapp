@@ -25,4 +25,9 @@ class Inventory extends Model
     public function donor() {
         return $this->belongsTo(User::class);
     }
+
+    public function zone()
+    {
+        return $this->belongsTo(Zones::class);
+    }
 }

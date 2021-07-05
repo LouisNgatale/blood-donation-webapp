@@ -17,4 +17,9 @@ class Zones extends Model
     {
         return $this->hasMany(Requests::class,'zone_id');
     }
+
+    public function inventory()
+    {
+        return $this->belongsTo(Inventory::class);
+    }
 }

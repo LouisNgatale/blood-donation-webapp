@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,8 @@ class InventoryController extends Controller
             'quantity' => 'required|Integer',
         ]);
 
+        $zone_id = User::find(auth()->id())->zone['id'];
+
         $input = $request->input('quantity');
         for ($i = 0; $i < $input;$i++)
         {
@@ -52,6 +55,7 @@ class InventoryController extends Controller
                     'blood_group' => $request->input('blood_group'),
                     'blood_rha' => $request->input('blood_rha'),
                     'donor_id' => $request->input('donor_id'),
+                    'zone_id' => $request->input($zone_id),
                     'expire_date' => $request->input('expire_date'),
                     'created_at' => Date::now()
                 ]);
