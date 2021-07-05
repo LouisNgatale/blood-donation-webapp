@@ -9,7 +9,7 @@
                         <h4 class="mb-0 text-center">Request blood donation</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('customer.store') }}" method="post">
+                        <form action="{{ route('customer.donate') }}" method="post">
                             @csrf
                             <div class="form-group mb-3">
                                 <label for="blood_group">Blood Group</label>

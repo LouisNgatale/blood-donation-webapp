@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function (){
         Route::get('/customer/request',[CustomerController::class,'create'])->name('customer.request');
         Route::post('/customer/request',[RequestsController::class,'store'])->name('customer.store');
         Route::get('/customer/donate',[CustomerController::class,'donate'])->name('customer.donate');
+        Route::post('/customer/donate',[CustomerController::class,'store'])->name('customer.donate');
     });
 
     Route::middleware(['auth', 'doctor'])->group(function () {

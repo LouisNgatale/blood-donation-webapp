@@ -9,56 +9,23 @@
                         <h4 class="mb-0 text-center">Request blood donation appointment</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('customer.store') }}" method="post">
+                        <form action="{{ route('customer.donate') }}" method="post">
                             @csrf
-                            <div class="form-group mb-3">
-                                <label for="blood_group">Blood Group</label>
-                                <select name="blood_group" class="form-select @error('blood_group') is-invalid @enderror" aria-label="Default select example" required>
-                                    <option selected disabled>Choose...</option>
-                                    <option value="A+">Group A+</option>
-                                    <option value="A-">Group A-</option>
-                                    <option value="B+">Group B+</option>
-                                    <option value="B-">Group B-</option>
-                                    <option value="AB+">Group AB+</option>
-                                    <option value="AB-">Group AB-</option>
-                                    <option value="O+">Group O+</option>
-                                    <option value="O-">Group O-</option>
-                                </select>
-                                @error('blood_group')
+                            <div class="form-group">
+                                <label for="appointment_date">Appointment date</label>
+                                <input type="text" placeholder="MM/DD/YYYY" class="form-control @error('appointment_date') is-invalid @enderror" id="appointment_date" name="appointment_date"
+                                       onfocus="(this.type='date')" onblur="(this.type='text')">
+                                @error('appointment_date')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="blood_rha">Blood Rhesus factor</label>
-                                <input type="text" class="form-control @error('blood_rha') is-invalid @enderror" id="blood_rha" name="blood_rha" placeholder="Blood RHA">
-                                @error('blood_rha')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
 
                             <div class="form-group">
-                                <label for="required_date">Required date</label>
-                                <input type="text" placeholder="MM/DD/YYYY" class="form-control @error('required_date') is-invalid @enderror" id="required_date" name="required_date"
+                                <label for="last_donation">Last donation date</label>
+                                <input type="text" placeholder="MM/DD/YYYY" class="form-control @error('last_donation') is-invalid @enderror" id="last_donation" name="last_donation"
                                        onfocus="(this.type='date')" onblur="(this.type='text')">
-                                @error('expire_date')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="quantity">Quantity</label>
-                                <input type="text" name="quantity" id="quantity" class="form-control @error('quantity') is-invalid @enderror" placeholder="Number of blood bags">
-                                @error('quantity')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="request_code">Request code</label>
-                                <input type="text" name="request_code" id="request_code" class="form-control @error('request_code') is-invalid @enderror" placeholder="eg REQ-2000-450">
-                                <small>Enter the request code given by the doctor</small>
-                                @error('request_code')
+                                @error('last_donation')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -69,7 +36,7 @@
                             @endphp
                             <div class="form-group mb-3">
                                 <select name="zone_id" class="form-select @error('zone_id') is-invalid @enderror" aria-label="Default select example" required>
-                                    <option selected disabled>Choose your zone...</option>
+                                    <option selected disabled>Choose donation zone...</option>
                                     @foreach($zones as $zone)
                                         <option value="{{ $zone->id }}">{{ $zone->zone }}</option>
                                     @endforeach
@@ -79,17 +46,19 @@
                                 @enderror
                             </div>
 
+                            @if ( session('status'))
+                                <div class="alert alert-success my-2">
+                                    {{ session('status') }}
+                                </div>
+                            @elseif(session('error'))
+                                <div class="alert alert-danger my-2">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
                             <button type="submit" class="btn btn-primary">Request</button>
                         </form>
-                        @if ( session('status'))
-                            <div class="alert alert-success my-2">
-                                {{ session('status') }}
-                            </div>
-                        @elseif(session('error'))
-                            <div class="alert alert-danger my-2">
-                                {{ session('error') }}
-                            </div>
-                        @endif
+
                     </div>
                 </div>
             </div>
