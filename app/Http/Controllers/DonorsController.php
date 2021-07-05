@@ -17,14 +17,14 @@ class DonorsController extends Controller
 
         $donors = json_decode(json_encode($donors), true);
 
-        $requests = collect($donors)
-            ->map(function ($item) {
-                $donations = DB::table('donors')
-                    ->where('donor_id', '=', $item['id'])
-                    ->first();
+        $requests = collect($donors)->map(function ($item) {
+            $donors = DB::table('donors')
+                ->where('donor_id', '=', $item['id'])
+                ->first();
 
-                $item['donations'] = $donations->donations ;
-                return $item;
+            $item['donations'] = $donors['donations'] ?? '0';
+
+            return $item;
             });
 
         return view('blood_bank.donors.index',[
