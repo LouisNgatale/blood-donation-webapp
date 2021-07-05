@@ -19,7 +19,15 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $request->blood_group }}</td>
-                            <td>{{ $request->expire_date }}</td>
+                            @php
+                                $date = new \Carbon\Carbon( $request->expire_date);
+                            @endphp
+
+                            @if($date->isPast())
+                                <td ><p class="alert-danger p-1 text-danger">{{ $request->expire_date }}</p></td>
+                            @else
+                                <td>{{ $request->expire_date }}</td>
+                            @endif
                             <td>{{ $request->isAvailable ? 'Available' : 'Not available' }}</td>
                         </tr>
                     @endforeach

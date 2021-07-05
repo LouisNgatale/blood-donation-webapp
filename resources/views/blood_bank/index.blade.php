@@ -13,7 +13,11 @@
                     <div class="card-body">
                         <span class="d-block font-15 text-dark font-weight-500">Available blood Bags</span>
                         <div class="text-center">
+                            @if($blood_bags < 10)
+                                <p class="text-danger alert-danger">Stock is very low</p>
+                            @endif
                             <span class="d-block display-4 text-dark mb-5">
+
                                 {{ $blood_bags }}
                             </span>
                             <small class="d-block">
