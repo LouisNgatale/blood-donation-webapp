@@ -12,7 +12,6 @@
                         <th scope="col">Doctor Status</th>
                         <th scope="col">Doctor Decision</th>
                         <th scope="col">Blood bank Status</th>
-                        <th scope="col">Blood Group</th>
                         <th scope="col">Status</th>
                         <th scope="col">Quantity</th>
                     </tr>
