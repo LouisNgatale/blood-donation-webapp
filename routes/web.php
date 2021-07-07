@@ -37,8 +37,8 @@ Route::middleware('auth')->group(function (){
         Route::get('/blood_bank/add',[InventoryController::class,'create'])->name('blood_bank.create');
         Route::post('/blood_bank/add',[InventoryController::class,'store'])->name('blood_bank.store');
         Route::get('/blood_bank/requests',[RequestsController::class,'index'])->name('requests.index');
-        Route::post('/blood_bank/approve/{id}',[RequestsController::class,'approve'])->name('requests.approve');
-        Route::post('/blood_bank/deny/{id}',[RequestsController::class,'deny'])->name('requests.deny');
+        Route::post('/blood_bank/approve/{id}',[RequestsController::class,'approve'])->name('admin_requests.approve');
+        Route::post('/blood_bank/deny/{id}',[RequestsController::class,'deny'])->name('admin_requests.deny');
         Route::get('/blood_bank/donors',[DonorsController::class,'index'])->name('donors.index');
     });
 
@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function (){
         // Customer routes
         Route::get('/customer',[CustomerController::class,'index'])->name('customer.home');
         Route::get('/customer/request',[CustomerController::class,'create'])->name('customer.request');
+        Route::get('/customer/requests',[CustomerController::class,'view'])->name('customer.requests');
         Route::post('/customer/request',[RequestsController::class,'store'])->name('customer.store');
         Route::get('/customer/donate',[CustomerController::class,'donate'])->name('customer.donate');
         Route::post('/customer/donate',[CustomerController::class,'store'])->name('customer.donate');
@@ -54,8 +55,8 @@ Route::middleware('auth')->group(function (){
     Route::middleware(['auth', 'doctor'])->group(function () {
         // Doctor routes
         Route::get('/doctor',[DoctorController::class,'index'])->name('doctor.home');
-        Route::post('/blood_bank/approve/{id}',[DoctorController::class,'approve'])->name('doctor_requests.approve');
-        Route::post('/blood_bank/deny/{id}',[DoctorController::class,'deny'])->name('doctor_requests.deny');
+        Route::post('/doctor/approve/{id}',[DoctorController::class,'approve'])->name('doctor_requests.approve');
+        Route::post('/doctor/deny/{id}',[DoctorController::class,'deny'])->name('doctor_requests.deny');
         Route::get('/doctor/request',[DoctorController::class,'show'])->name('doctor.request');
         Route::post('/doctor/request',[RequestsController::class,'request_code'])->name('doctor.store');
     });

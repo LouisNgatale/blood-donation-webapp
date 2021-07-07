@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Requests;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -54,6 +55,26 @@ class CustomerController extends Controller
         return view('customer.create');
     }
 
+    public function view()
+    {
+        $requests = collect(Requests::all()
+            ->where('recipient_id',auth()->id())
+            ->map(function ($item) {
+                $user =DB::table('users')
+                    ->where('id',$item['recipient_id'])
+                    ->first();
+
+                $item['name'] = $user->name;
+                $item['age'] = $user->age;
+                $item['gender'] = $user->gender;
+
+                return $item;
+            }));
+
+        return view('customer.requests.index',[
+            'requests' => $requests
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *

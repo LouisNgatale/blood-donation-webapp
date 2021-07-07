@@ -17,6 +17,7 @@ class RequestsController extends Controller
     public function index() {
         $requests = collect(Requests::all()
             ->where('doctor_approved',true)
+            ->where('is_approved',false)
             ->where('zone_id',User::find(auth()->id())->zone->id))
             ->map(function ($item) {
                 $user =DB::table('users')
@@ -109,7 +110,6 @@ class RequestsController extends Controller
         // Get all available inventories
         $inventories = DB::table('inventories')
             ->where([
-                ['blood_rha', '=', $request->blood_rha],
                 ['blood_group', '=', $request->blood_type],
                 ['isAvailable', '=', true],
             ])->get();
@@ -120,7 +120,8 @@ class RequestsController extends Controller
                 DB::table('requests')
                     ->where('id', $id)
                     ->update([
-                        'isApproved'=>true
+                        'isApproved'=>true,
+                        'admin_status'=>'updated'
                     ]);
 
                 // Update the inventory availability to false
@@ -147,7 +148,8 @@ class RequestsController extends Controller
         DB::table('requests')
             ->where('id', $id)
             ->update([
-                'isDenied'=>true
+                'isDenied'=>true,
+                'admin_status'=>'updated'
             ]);
 
         return Redirect::route('requests.index');

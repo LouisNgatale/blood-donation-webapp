@@ -60,7 +60,8 @@
                 <a href="{{ route('customer.donate') }}" class="btn btn-outline-primary">Make donation</a>
             </div>
             <div class="col-4">
-                <a href="{{ route('customer.request') }}" class="btn btn-outline-primary">Request blood</a>
+                <a href="{{ route('customer.request') }}" class="btn btn-outline-primary mr-2">Request blood</a>
+                <a href="{{ route('customer.requests') }}" class="btn btn-outline-primary">View requests</a>
             </div>
         </div>
     </div>

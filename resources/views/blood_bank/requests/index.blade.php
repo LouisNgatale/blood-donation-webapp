@@ -31,12 +31,12 @@
                         <td>
                             <div>
                                 <div>
-                                    <form class="d-inline" action="{{ route("requests.approve",$request->id) }}" method="post">
+                                    <form class="d-inline" action="{{ route("admin_requests.approve",$request->id) }}" method="post">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-success" value="Approve">
                                     </form>
 
-                                    <form class="d-inline" action="{{ route("requests.deny",$request->id) }}" method="post">
+                                    <form class="d-inline" action="{{ route("admin_requests.deny",$request->id) }}" method="post">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-danger" value="Deny">
                                     </form>
