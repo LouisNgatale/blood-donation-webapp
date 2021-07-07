@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Redirect;
 class InventoryController extends Controller
 {
     public function index() {
+        $zone_id = User::find(Auth::id())->zone['id'];
 
         $blood_bags = DB::table('inventories')
+            ->where('zone_id','=',$zone_id)
             ->count();
 
         $requests = DB::table('requests')
