@@ -17,7 +17,7 @@ class RequestsController extends Controller
     public function index() {
         $requests = collect(Requests::all()
             ->where('doctor_approved',true)
-            ->where('is_approved',false)
+            ->where('isApproved',false)
             ->where('zone_id',User::find(auth()->id())->zone->id))
             ->map(function ($item) {
                 $user =DB::table('users')
@@ -114,7 +114,10 @@ class RequestsController extends Controller
                 ['isAvailable', '=', true],
             ])->get();
 
+
+        // Handle out of stock error
         if ($inventories->isNotEmpty()){
+            // Handle not enough error
             if ($inventories->count() >= $request->quantity) {
                 // Confirm the request is approved
                 DB::table('requests')
@@ -133,13 +136,13 @@ class RequestsController extends Controller
                             'isAvailable'=>false
                         ]);
                 }
+                return Redirect::route('requests.index')->with($id,"Approved");
             }else{
                 return Redirect::route('requests.index')->with($id,"No enough stock");
             }
         }else{
             return Redirect::route('requests.index')->with($id,"Out of this stock");
         }
-        return Redirect::route('requests.index');
     }
 
     public function deny($id)

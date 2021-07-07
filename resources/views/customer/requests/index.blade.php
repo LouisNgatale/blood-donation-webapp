@@ -11,7 +11,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Doctor Status</th>
                         <th scope="col">Doctor Decision</th>
-                        <th scope="col">Hospital Status</th>
+                        <th scope="col">Blood bank Status</th>
                         <th scope="col">Blood Group</th>
                         <th scope="col">Status</th>
                         <th scope="col">Quantity</th>
@@ -36,11 +36,11 @@
                         @endif
 
                         @if($request->is_denied && $request->admin_status == "updated")
-                            <td>Doctor denied</td>
+                            <td>Blood bank denied</td>
                         @elseif($request->is_approved)
-                            <td>Doctor approved</td>
+                            <td>Blood bank approved</td>
                         @elseif(!$request->is_approved && $request->admin_status == "pending")
-                            <td>Pending hospital review</td>
+                            <td>Pending blood bank review</td>
                         @endif
 
                         <td>{{ $request->blood_type }}</td>
