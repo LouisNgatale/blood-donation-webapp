@@ -54,7 +54,9 @@ Route::middleware('auth')->group(function (){
     Route::middleware(['auth', 'doctor'])->group(function () {
         // Doctor routes
         Route::get('/doctor',[DoctorController::class,'index'])->name('doctor.home');
-        Route::get('/doctor/request',[DoctorController::class,'create'])->name('doctor.request');
+        Route::post('/blood_bank/approve/{id}',[DoctorController::class,'approve'])->name('doctor_requests.approve');
+        Route::post('/blood_bank/deny/{id}',[DoctorController::class,'deny'])->name('doctor_requests.deny');
+        Route::get('/doctor/request',[DoctorController::class,'show'])->name('doctor.request');
         Route::post('/doctor/request',[RequestsController::class,'request_code'])->name('doctor.store');
     });
 });

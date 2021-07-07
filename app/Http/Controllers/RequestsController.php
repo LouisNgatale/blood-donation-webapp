@@ -16,8 +16,7 @@ class RequestsController extends Controller
 
     public function index() {
         $requests = collect(Requests::all()
-            ->where('isApproved',false)
-            ->where('isDenied',false)
+            ->where('doctor_approved',true)
             ->where('zone_id',User::find(auth()->id())->zone->id))
             ->map(function ($item) {
                 $user =DB::table('users')
@@ -46,32 +45,30 @@ class RequestsController extends Controller
     {
         $request->validate([
             'blood_group' => 'required|String',
-            'blood_rha' => 'required|String',
             'required_date' => 'required|date',
             'zone_id' => 'required',
             'quantity' => 'required|Integer',
-            'request_code' => 'required',
         ]);
-
+        DB::table('requests')
+            ->insert([
+                'recipient_id'=>auth()->id(),
+                'blood_type'=>$request->input('blood_group'),
+                'zone_id'=>$request->input('zone_id'),
+//                    'request_code_id'=>$collection->id,
+                'required_date'=>$request->input('required_date'),
+                'quantity'=>$request->input('quantity'),
+            ]);
+        return Redirect::route('customer.request')->with('status','Request made successfully!');
+/*
         $collection = DB::table('request_codes')
             ->where('request_code', '=', $request->input('request_code'))
-            ->where('owner_id', '=', auth()->id())->first();
+            ->where('owner_id', '=', auth()->id())->first();*/
 
-        if (isset($collection)){
-            DB::table('requests')
-                ->insert([
-                    'recipient_id'=>auth()->id(),
-                    'blood_type'=>$request->input('blood_group'),
-                    'blood_rha'=>$request->input('blood_rha'),
-                    'zone_id'=>$request->input('zone_id'),
-                    'request_code_id'=>$collection->id,
-                    'required_date'=>$request->input('required_date'),
-                    'quantity'=>$request->input('quantity'),
-                ]);
-            return Redirect::route('customer.request')->with('status','Request made successfully!');
-        }else{
-            return Redirect::route('customer.request')->with('error','The request code is not valid!');
-        }
+//        if (isset($collection)){
+
+//        }else{
+//            return Redirect::route('customer.request')->with('error','The request code is not valid!');
+//        }
     }
 
     public function request_code(Request $request)

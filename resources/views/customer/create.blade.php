@@ -9,7 +9,7 @@
                         <h4 class="mb-0 text-center">Request blood donation</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('customer.donate') }}" method="post">
+                        <form action="{{ route('customer.store') }}" method="post">
                             @csrf
                             <div class="form-group mb-3">
                                 <label for="blood_group">Blood Group</label>
@@ -29,14 +29,6 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="blood_rha">Blood Rhesus factor</label>
-                                <input type="text" class="form-control @error('blood_rha') is-invalid @enderror" id="blood_rha" name="blood_rha" placeholder="Blood RHA">
-                                @error('blood_rha')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <div class="form-group">
                                 <label for="required_date">Required date</label>
                                 <input type="text" placeholder="MM/DD/YYYY" class="form-control @error('required_date') is-invalid @enderror" id="required_date" name="required_date"
@@ -50,18 +42,18 @@
                                 <label for="quantity">Quantity</label>
                                 <input type="text" name="quantity" id="quantity" class="form-control @error('quantity') is-invalid @enderror" placeholder="Number of blood bags">
                                 @error('quantity')
-                                <div class="alert alert-danger">{{ $message }}</div>
+                                    <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
+<!--                            <div class="form-group mb-3">
                                 <label for="request_code">Request code</label>
-                                <input type="text" name="request_code" id="request_code" class="form-control @error('request_code') is-invalid @enderror" placeholder="eg REQ-2000-450">
+{{--                                <input type="text" name="request_code" id="request_code" class="form-control @error('request_code') is-invalid @enderror" placeholder="eg REQ-2000-450">--}}
                                 <small>Enter the request code given by the doctor</small>
-                                @error('request_code')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+{{--                                @error('request_code')--}}
+{{--                                <div class="alert alert-danger">{{ $message }}</div>--}}
+{{--                                @enderror--}}
+                            </div>-->
 
                             @php
                                 use Illuminate\Support\Facades\DB;

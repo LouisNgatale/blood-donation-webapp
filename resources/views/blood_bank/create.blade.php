@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="form-group col">
                                     <label for="expire_date">Expire date</label>
-                                    <input type="date" class="form-control @error('expire_date') is-invalid @enderror" id="expire_date" name="expire_date">
+                                    <input type="datetime-local" class="form-control @error('expire_date') is-invalid @enderror" id="expire_date" name="expire_date">
                                     @error('expire_date')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror

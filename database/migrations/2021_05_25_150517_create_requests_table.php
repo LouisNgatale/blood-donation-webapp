@@ -17,16 +17,18 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('recipient_id');
             $table->string('blood_type');
+            $table->string('doctor_status')->default('pending');
+            $table->string('admin_status')->default('pending');
             $table->integer('quantity');
             $table->bigInteger('zone_id');
-            $table->string('blood_rha');
-            $table->string('request_code_id');
+//            $table->string('request_code_id');
             $table->date('required_date');
+            $table->boolean('doctor_approved')->default(false);
             $table->boolean('isApproved')->default(false);
             $table->boolean('isDenied')->default(false);
             $table->timestamps();
 
-            $table->index(['request_code_id','zone_id']);
+            $table->index(['zone_id']);
         });
     }
 

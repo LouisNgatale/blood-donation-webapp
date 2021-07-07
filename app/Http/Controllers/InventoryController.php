@@ -39,15 +39,16 @@ class InventoryController extends Controller
 
         $requests = DB::table('inventories')
             ->where('zone_id','=',$zone_id)
+            ->where('isAvailable',true)
             ->get();
 
         return view('blood_bank.view',compact('requests'));
     }
-    //
+
     public function create() {
         return view('blood_bank.create');
     }
-    //
+
     public function store(Request $request) {
         $request->validate([
             'blood_group' => 'required|String',

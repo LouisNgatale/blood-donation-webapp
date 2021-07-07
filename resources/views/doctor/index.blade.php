@@ -10,25 +10,10 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <span class="d-block font-15 text-dark font-weight-500">Total donations made</span>
-                        <div class="text-center">
-                            <span class="d-block display-4 text-dark mb-5">
-                                {{ $donations }}
-                            </span>
-                            <small class="d-block">
-                                Listed number of donations
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
                         <span class="d-block font-15 text-dark font-weight-500">Total blood requests</span>
                         <div class="text-center">
                             <span class="d-block display-4 text-dark mb-5">
-                                {{ $requests }}
+                                {{ $count }}
                             </span>
                             <small class="d-block">
                                 Listed number of requests
@@ -56,7 +41,7 @@
 
         <div class="row my-4">
             <div class="col-4">
-                <a href="{{ route('doctor.request') }}" class="btn btn-outline-primary">Generate request code</a>
+                <a href="{{ route('doctor.request') }}" class="btn btn-outline-primary">View requests</a>
             </div>
         </div>
     </div>
