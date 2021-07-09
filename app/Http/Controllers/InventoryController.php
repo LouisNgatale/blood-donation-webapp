@@ -16,6 +16,7 @@ class InventoryController extends Controller
 
         $blood_bags = DB::table('inventories')
             ->where('zone_id','=',$zone_id)
+            ->where('isAvailable',true)
             ->count();
 
         $requests = DB::table('requests')
@@ -33,6 +34,15 @@ class InventoryController extends Controller
             'requests' => $requests,
             'donors' => $donors,
         ]);
+    }
+    public function remove($id)
+    {
+        DB::table('inventories')
+            ->where('id',$id)
+            ->update([
+                'isAvailable'=>false
+            ]);
+        return Redirect::route('blood_bank.view');
     }
 
     public function view()

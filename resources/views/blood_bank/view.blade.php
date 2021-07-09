@@ -12,6 +12,7 @@
                         <th scope="col">Blood group</th>
                         <th scope="col">Expire date</th>
                         <th scope="col">Availability</th>
+                        <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,6 +30,14 @@
                                 <td>{{ $request->expire_date }}</td>
                             @endif
                             <td>{{ $request->isAvailable ? 'Available' : 'Not available' }}</td>
+                            <td>
+                                @if($date->isPast())
+                                <form class="d-inline" action="{{ route("blood_bank.remove",$request->id) }}" method="post">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="submit" class="btn btn-danger" value="Remove">
+                                </form>
+                                    @endif
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

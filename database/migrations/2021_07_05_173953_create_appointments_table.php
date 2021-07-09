@@ -17,6 +17,7 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->date("appointment_date");
             $table->date("last_donation");
+            $table->string("status")->default('Pending');
             $table->unsignedBigInteger("zone_id");
             $table->unsignedBigInteger("user_id");
             $table->timestamps();

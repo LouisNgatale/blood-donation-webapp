@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -112,6 +113,14 @@ class CustomerController extends Controller
                     'user_id' => auth()->id()
                 ]);
 
+            DB::table('donors')
+                ->update([
+                    'donor_id' => Auth::id(),
+                    'donations' => DB::raw('donations+1'),
+                    'created_at' => Date::now(),
+                    'updated_at' => Date::now()
+                ]);
+
             return Redirect::route('customer.donate')->with('status','Appointment placed');
         }else{
             $role = DB::table('roles')
@@ -134,8 +143,6 @@ class CustomerController extends Controller
 
             return Redirect::route('customer.donate')->with('status','Appointment placed');
         }
-
-
     }
 
     /**

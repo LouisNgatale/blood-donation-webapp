@@ -17,7 +17,6 @@
                                 <p class="text-danger alert-danger">Stock is very low</p>
                             @endif
                             <span class="d-block display-4 text-dark mb-5">
-
                                 {{ $blood_bags }}
                             </span>
                             <small class="d-block">
@@ -69,6 +68,7 @@
             </div>
             <div class="col-4">
                 <a href="{{ route('donors.index') }}" class="btn btn-outline-primary">View donors</a>
+                <a href="{{ route('donors.appointments') }}" class="btn ml-2 btn-outline-primary">Donation appointments</a>
             </div>
         </div>
     </div>

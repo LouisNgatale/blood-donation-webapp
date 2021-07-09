@@ -100,6 +100,8 @@ class RequestsController extends Controller
         return Redirect::route('doctor.request')->with('status',"Request code - $code");
     }
 
+
+
     public function approve($id): RedirectResponse
     {
         // Get the specific request

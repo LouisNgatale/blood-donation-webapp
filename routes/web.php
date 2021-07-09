@@ -5,6 +5,9 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DonorsController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\RequestsController;
+use App\Models\Requests;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -34,12 +37,16 @@ Route::middleware('auth')->group(function (){
         // Blood bank admin routes
         Route::get('/blood_bank',[InventoryController::class,'index'])->name('blood_bank.home');
         Route::get('/blood_bank/stock',[InventoryController::class,'view'])->name('blood_bank.view');
+        Route::post('/blood_bank/stock/{id}/remove',[InventoryController::class,'remove'])->name('blood_bank.remove');
         Route::get('/blood_bank/add',[InventoryController::class,'create'])->name('blood_bank.create');
         Route::post('/blood_bank/add',[InventoryController::class,'store'])->name('blood_bank.store');
         Route::get('/blood_bank/requests',[RequestsController::class,'index'])->name('requests.index');
         Route::post('/blood_bank/approve/{id}',[RequestsController::class,'approve'])->name('admin_requests.approve');
         Route::post('/blood_bank/deny/{id}',[RequestsController::class,'deny'])->name('admin_requests.deny');
         Route::get('/blood_bank/donors',[DonorsController::class,'index'])->name('donors.index');
+        Route::post('/blood_bank/appointments/approve/{id}',[DonorsController::class,'approve'])->name('appointments.approve');
+        Route::post('/blood_bank/appointments/deny/{id}',[DonorsController::class,'deny'])->name('appointments.deny');
+        Route::get('/blood_bank/appointments',[DonorsController::class,'appointments'])->name('donors.appointments');
     });
 
     Route::middleware(['auth', 'customer'])->group(function () {
@@ -60,4 +67,11 @@ Route::middleware('auth')->group(function (){
         Route::get('/doctor/request',[DoctorController::class,'show'])->name('doctor.request');
         Route::post('/doctor/request',[RequestsController::class,'request_code'])->name('doctor.store');
     });
+});
+
+Route::get('/report',function (){
+
+
+    $pdf = PDF::loadView('blood_bank.report');
+    return $pdf->download('report.pdf');
 });

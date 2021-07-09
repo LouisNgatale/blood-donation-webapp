@@ -19,6 +19,7 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     @foreach( $requests as $request )
                     <tr>
                         <th scope="row">1</th>
