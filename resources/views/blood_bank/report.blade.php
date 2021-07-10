@@ -15,7 +15,6 @@
                         <th scope="col">Blood Group</th>
                         <th scope="col">Status</th>
                         <th scope="col">Quantity</th>
-                        <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -25,10 +24,7 @@
                         use App\Models\Requests;
                         use App\Models\User;
                         use Illuminate\Support\Facades\DB;
-                        $requests = collect(Requests::all()
-                            ->where('doctor_approved',true)
-                            ->where('isApproved',false)
-                            ->where('zone_id',User::find(auth()->id())->zone->id))
+                        $requests = collect(Requests::all())
                             ->map(function ($item) {
                                 $user =DB::table('users')
                                     ->where('id',$item['recipient_id'])
@@ -50,26 +46,6 @@
                             <td>{{ $request->blood_type }}</td>
                             <td>Pending</td>
                             <td>{{ $request->quantity }}</td>
-                            <td>
-                                <div>
-                                    <div>
-                                        <form class="d-inline" action="{{ route("admin_requests.approve",$request->id) }}" method="post">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="submit" class="btn btn-success" value="Approve">
-                                        </form>
-
-                                        <form class="d-inline" action="{{ route("admin_requests.deny",$request->id) }}" method="post">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="submit" class="btn btn-danger" value="Deny">
-                                        </form>
-                                    </div>
-                                    @if (session($request->id))
-                                        <span class="text-danger my-2">
-                                        {{ session($request->id) }}
-                                    </span>
-                                    @endif
-                                </div>
-                            </td>
                         </tr>
                     @endforeach
                     </tbody>

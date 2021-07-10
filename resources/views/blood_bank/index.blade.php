@@ -65,6 +65,7 @@
             </div>
             <div class="col-4">
                 <a href="{{ route('requests.index') }}" class="btn btn-outline-primary">View requests</a>
+                <a href="{{ route('report') }}" class="btn btn-outline-primary">Generate report</a>
             </div>
             <div class="col-4">
                 <a href="{{ route('donors.index') }}" class="btn btn-outline-primary">View donors</a>

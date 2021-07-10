@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Jimmyjs\ReportGenerator\ReportMedia\PdfReport;
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
@@ -71,7 +72,60 @@ class RequestsController extends Controller
 //            return Redirect::route('customer.request')->with('error','The request code is not valid!');
 //        }
     }
+    function get_customer_data()
+    {
+        return collect(Requests::all())
+            ->map(function ($item) {
+                $user =DB::table('users')
+                    ->where('id',$item['recipient_id'])
+                    ->first();
 
+                $item['name'] = $user->name;
+                $item['age'] = $user->age;
+                $item['gender'] = $user->gender;
+
+                return $item;
+            });
+    }
+
+    function pdf()
+    {
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($this->convert_customer_data_to_html());
+        return $pdf->stream();
+    }
+
+    function convert_customer_data_to_html()
+    {
+        $customer_data = $this->get_customer_data();
+        $output = '
+                 <h3 align="center">Blood requests report</h3>
+                 <table width="100%" style="border-collapse: collapse; border: 0px;">
+                  <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Status</th>
+                <th scope="col">Quantity</th>
+               </tr>
+                 ';
+        foreach($customer_data as $customer)
+        {
+            $output .= '
+                      <tr>
+                       <td style="border: 1px solid; padding:12px;">'.$customer->name.'</td>
+                       <td style="border: 1px solid; padding:12px;">'.$customer->age.'</td>
+                       <td style="border: 1px solid; padding:12px;">'.$customer->gender.'</td>
+                       <td style="border: 1px solid; padding:12px;">'.$customer->blood_type.'</td>
+                       <td style="border: 1px solid; padding:12px;">Pending</td>
+                       <td style="border: 1px solid; padding:12px;">'.$customer->quantity.'</td>
+                      </tr>
+                      ';
+        }
+        $output .= '</table>';
+        return $output;
+    }
     public function request_code(Request $request)
     {
         $request->validate([
@@ -100,6 +154,38 @@ class RequestsController extends Controller
         return Redirect::route('doctor.request')->with('status',"Request code - $code");
     }
 
+
+    public function displayReport()
+    {
+        $title = 'Donation requests'; // Report title
+
+//        $queryBuilder = DB::table('users')
+//            ->join('requests','requests.recipient_id','=','users.id')
+////            ->join('zones','requests.zone_id','=','zones.id')
+//            ->select('name','blood_type','doctor_status','required_date');
+
+        $queryBuilder = Requests::select(['blood_type', 'doctor_status', 'required_date']); // You should sort groupBy column to use groupBy();
+
+        $columns = [ // Set Column to be displayed
+            'Blood Group'=>'blood_type', // if no column_name specified, this will automatically seach for snake_case of column name (will be registered_at) column from query result
+            'Status' => 'doctor_status',
+            'Required date' => 'required_date'
+        ];
+
+        // Generate Report with flexibility to manipulate column class even manipulate column value (using Carbon, etc).
+        return (new \Jimmyjs\ReportGenerator\ReportMedia\PdfReport)->of($title, [], $queryBuilder, $columns)
+            /*->editColumn('Required date', [ // Change column class or manipulate its data for displaying to report
+                'displayAs' => function($result) {
+                    return $result->required_date->format('d M Y');
+                },
+                'class' => 'left'
+            ])*/
+            ->editColumns(['Blood Type', 'Status'], [ // Mass edit column
+                'class' => 'right bold'
+            ])
+            ->limit(20) // Limit record to be showed
+            ->stream(); // other available method: download('filename') to download pdf / make() that will producing DomPDF / SnappyPdf instance so you could do any other DomPDF / snappyPdf method such as stream() or download()
+    }
 
 
     public function approve($id): RedirectResponse

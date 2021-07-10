@@ -69,9 +69,4 @@ Route::middleware('auth')->group(function (){
     });
 });
 
-Route::get('/report',function (){
-
-
-    $pdf = PDF::loadView('blood_bank.report');
-    return $pdf->download('report.pdf');
-});
+Route::get('/report',[RequestsController::class,'pdf'])->name('report');
